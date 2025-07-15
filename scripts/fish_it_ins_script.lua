@@ -1,4 +1,4 @@
--- FishIt Auto Fishing Full Version (Open Source Clean UI) -- Dibuat ulang dari versi asli (bisa dimodifikasi bebas)
+-- FishIt Auto Fishing Full Version (Open Source Clean UI) -- Dibuat dari versi asli (bisa dimodifikasi bebas)
 
 if game.PlaceId == 121864768012064 then local plr = game.Players.LocalPlayer local UIS = game:GetService("UserInputService") local RS = game:GetService("RunService") local TweenService = game:GetService("TweenService")
 
@@ -134,7 +134,7 @@ local function instantCatch()
     end
 end
 
--- Run loops
+-- Run
 RS.RenderStepped:Connect(function()
     if plr.Character and plr.Character:FindFirstChild("Humanoid") then
         plr.Character.Humanoid.WalkSpeed = config.WalkSpeed
