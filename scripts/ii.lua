@@ -4,31 +4,38 @@ if game.PlaceId == 121864768012064 then
     local UIS = game:GetService("UserInputService")
     local HttpService = game:GetService("HttpService")
 
-    -- Buat UI buat nampung log hook
+    -- Buat UI TextBox buat nampung log (bisa di-copy)
     local gui = Instance.new("ScreenGui", plr.PlayerGui)
-    gui.Name = "FishItInspector"
+    gui.Name = "FishItInspectorCopy"
 
-    local frame = Instance.new("ScrollingFrame", gui)
+    local frame = Instance.new("Frame", gui)
     frame.Size = UDim2.new(0, 400, 0, 300)
     frame.Position = UDim2.new(0, 10, 0, 10)
     frame.BackgroundTransparency = 0.3
     frame.BackgroundColor3 = Color3.fromRGB(20,20,20)
     frame.BorderSizePixel = 0
-    frame.CanvasSize = UDim2.new(0,0,5,0)
+    frame.Active = true
+    frame.Draggable = true
 
-    local layout = Instance.new("UIListLayout", frame)
-    layout.Padding = UDim.new(0,5)
+    local logBox = Instance.new("TextBox", frame)
+    logBox.Size = UDim2.new(1, -20, 1, -20)
+    logBox.Position = UDim2.new(0, 10, 0, 10)
+    logBox.BackgroundColor3 = Color3.fromRGB(25,25,25)
+    logBox.TextColor3 = Color3.new(1,1,1)
+    logBox.TextXAlignment = Enum.TextXAlignment.Left
+    logBox.TextYAlignment = Enum.TextYAlignment.Top
+    logBox.ClearTextOnFocus = false
+    logBox.MultiLine = true
+    logBox.Font = Enum.Font.Code
+    logBox.TextSize = 14
+    logBox.TextEditable = true
+    logBox.TextWrapped = true
+    logBox.Text = "[FishIt Inspector Aktif]\nTahan text ini untuk salin log manual di Android.\n\n"
 
+    -- Fungsi log ke TextBox
     local function log(text)
-        local label = Instance.new("TextLabel", frame)
-        label.Size = UDim2.new(1, -10, 0, 20)
-        label.TextColor3 = Color3.new(1,1,1)
-        label.BackgroundTransparency = 1
-        label.TextXAlignment = Enum.TextXAlignment.Left
-        label.Text = text
+        logBox.Text = logBox.Text .. text .. "\n"
     end
-
-    log("[FishIt Inspector Aktif]")
 
     -- Hook __namecall
     local old; old = hookmetamethod(game, "__namecall", function(self, ...)
