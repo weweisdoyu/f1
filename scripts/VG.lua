@@ -1,101 +1,164 @@
+-- FishIt Auto Fishing Full Version (Open Source Clean UI) -- Dibuat ulang dari versi asli (bisa dimodifikasi bebas)
+
 if game.PlaceId == 121864768012064 then
     local plr = game.Players.LocalPlayer
     local UIS = game:GetService("UserInputService")
     local RS = game:GetService("RunService")
-    local RF = game.ReplicatedStorage:WaitForChild("RF")
-    local RE = game.ReplicatedStorage:WaitForChild("RE")
+    local TweenService = game:GetService("TweenService")
 
-    local remoteStart = RF:WaitForChild("RequestFishingMinigameStarted")
-    local remoteCatch = RE:WaitForChild("FishingCompleted")
-    local remoteBypass = RE:WaitForChild("UpdateAutoFishingState")
-
+    -- SETTINGS
     local config = {
         AutoFish = false,
+        AutoSell = false,
+        AlwaysPerfect = false,
+        InstantCatch = false,
+        AutoThrow = false,
         WalkSpeed = 16,
     }
 
-    -- Create GUI
-    local gui = Instance.new("ScreenGui")
-    gui.Name = "FishItAutoFishUI"
-    gui.ResetOnSpawn = false
-    gui.Parent = plr.PlayerGui
+    -- UI
+    local ScreenGui = Instance.new("ScreenGui", plr.PlayerGui)
+    ScreenGui.Name = "FishItUI"
 
-    local frame = Instance.new("Frame", gui)
-    frame.Size = UDim2.new(0, 250, 0, 200)
-    frame.Position = UDim2.new(0.05, 0, 0.1, 0)
-    frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    frame.BackgroundTransparency = 0.1
-    frame.BorderSizePixel = 0
-    frame.Active = true
-    frame.Draggable = true
+    local Frame = Instance.new("Frame", ScreenGui)
+    Frame.Size = UDim2.new(0, 250, 0, 300)
+    Frame.Position = UDim2.new(0.05, 0, 0.1, 0)
+    Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Frame.BackgroundTransparency = 0.1
+    Frame.BorderSizePixel = 0
 
-    local title = Instance.new("TextLabel", frame)
-    title.Size = UDim2.new(1, 0, 0, 25)
-    title.Text = "FishIt AutoFishing [HP Fix]"
-    title.BackgroundTransparency = 1
-    title.TextColor3 = Color3.new(1, 1, 1)
-    title.Font = Enum.Font.SourceSansBold
-    title.TextSize = 18
+    local function createToggle(name, posY, callback)
+        local toggle = Instance.new("TextButton", Frame)
+        toggle.Size = UDim2.new(0, 230, 0, 25)
+        toggle.Position = UDim2.new(0, 10, 0, posY)
+        toggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        toggle.TextColor3 = Color3.new(1, 1, 1)
+        toggle.Text = "[OFF] " .. name
 
-    local toggle = Instance.new("TextButton", frame)
-    toggle.Size = UDim2.new(0, 230, 0, 30)
-    toggle.Position = UDim2.new(0, 10, 0, 40)
-    toggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    toggle.TextColor3 = Color3.new(1, 1, 1)
-    toggle.Text = "[OFF] Auto Fish"
-
-    toggle.MouseButton1Click:Connect(function()
-        config.AutoFish = not config.AutoFish
-        toggle.Text = (config.AutoFish and "[ON] " or "[OFF] ") .. "Auto Fish"
-    end)
-
-    local wsLabel = Instance.new("TextLabel", frame)
-    wsLabel.Size = UDim2.new(0, 230, 0, 20)
-    wsLabel.Position = UDim2.new(0, 10, 0, 80)
-    wsLabel.BackgroundTransparency = 1
-    wsLabel.TextColor3 = Color3.new(1, 1, 1)
-    wsLabel.Text = "WalkSpeed: " .. config.WalkSpeed
-
-    local wsSlider = Instance.new("TextButton", frame)
-    wsSlider.Size = UDim2.new(0, 230, 0, 15)
-    wsSlider.Position = UDim2.new(0, 10, 0, 100)
-    wsSlider.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-    wsSlider.Text = ""
-
-    wsSlider.MouseButton1Down:Connect(function()
-        local con
-        con = RS.RenderStepped:Connect(function()
-            local mouseX = UIS:GetMouseLocation().X
-            local relX = math.clamp((mouseX - wsSlider.AbsolutePosition.X) / wsSlider.AbsoluteSize.X, 0, 1)
-            local value = math.floor(16 + (100 - 16) * relX)
-            config.WalkSpeed = value
-            wsLabel.Text = "WalkSpeed: " .. value
+        toggle.MouseButton1Click:Connect(function()
+            local state = not config[name]
+            config[name] = state
+            toggle.Text = (state and "[ON] " or "[OFF] ") .. name
         end)
-        UIS.InputEnded:Wait()
-        con:Disconnect()
+    end
+
+    local function createSlider(name, posY, min, max, callback)
+        local label = Instance.new("TextLabel", Frame)
+        label.Size = UDim2.new(0, 230, 0, 20)
+        label.Position = UDim2.new(0, 10, 0, posY)
+        label.TextColor3 = Color3.new(1, 1, 1)
+        label.BackgroundTransparency = 1
+        label.Text = name .. ": " .. config.WalkSpeed
+
+        local slider = Instance.new("TextButton", Frame)
+        slider.Size = UDim2.new(0, 230, 0, 15)
+        slider.Position = UDim2.new(0, 10, 0, posY + 20)
+        slider.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+        slider.Text = ""
+
+        slider.MouseButton1Down:Connect(function()
+            local con
+            con = RS.RenderStepped:Connect(function()
+                local mouseX = UIS:GetMouseLocation().X
+                local relX = math.clamp((mouseX - slider.AbsolutePosition.X) / slider.AbsoluteSize.X, 0, 1)
+                local value = math.floor(min + (max - min) * relX)
+                callback(value)
+                label.Text = name .. ": " .. value
+            end)
+            UIS.InputEnded:Wait()
+            con:Disconnect()
+        end)
+    end
+
+    -- Create Toggles
+    createToggle("AutoFish", 10, function()
+        config.AutoFish = not config.AutoFish
+        return config.AutoFish
     end)
 
-    -- Loop AutoFish
-    task.spawn(function()
-        while task.wait(2.5) do
-            if config.AutoFish then
-                pcall(function()
-                    remoteStart:FireServer()
-                    task.wait(0.5)
-                    remoteBypass:FireServer(true) -- Bypass minigame + hoki 100%
-                    task.wait(1.2)
-                    remoteCatch:FireServer()
-                end)
+    createToggle("AutoSell", 40, function()
+        config.AutoSell = not config.AutoSell
+        return config.AutoSell
+    end)
+
+    createToggle("AlwaysPerfect", 70, function()
+        config.AlwaysPerfect = not config.AlwaysPerfect
+        return config.AlwaysPerfect
+    end)
+
+    createToggle("InstantCatch", 100, function()
+        config.InstantCatch = not config.InstantCatch
+        return config.InstantCatch
+    end)
+
+    createToggle("AutoThrow", 130, function()
+        config.AutoThrow = not config.AutoThrow
+        return config.AutoThrow
+    end)
+
+    -- Create Slider
+    createSlider("WalkSpeed", 160, 16, 100, function(val)
+        config.WalkSpeed = val
+    end)
+
+    -- Functionality
+    local function autoSell()
+        local sellPart = workspace:FindFirstChild("SellArea")
+        if sellPart and (plr.Character.HumanoidRootPart.Position - sellPart.Position).Magnitude < 10 then
+            firetouchinterest(plr.Character.HumanoidRootPart, sellPart, 0)
+            wait(0.1)
+            firetouchinterest(plr.Character.HumanoidRootPart, sellPart, 1)
+        end
+    end
+
+    local function autoFish()
+        local gui = plr.PlayerGui:FindFirstChild("FishItUI")
+        if gui then
+            local bar = gui:FindFirstChild("Bar")
+            if bar then
+                if config.AlwaysPerfect then
+                    keypress(0x45)
+                    wait(0.1)
+                    keyrelease(0x45)
+                end
+            else
+                if config.AutoThrow then
+                    keypress(0x45)
+                    wait(0.1)
+                    keyrelease(0x45)
+                end
             end
         end
-    end)
+    end
 
-    -- WalkSpeed Control
+    local function instantCatch()
+        local tool = plr.Character:FindFirstChildOfClass("Tool")
+        if tool and tool:FindFirstChild("FishModule") then
+            local event = tool.FishModule:FindFirstChild("CatchFish")
+            if event and event:IsA("RemoteEvent") then
+                event:FireServer()
+            end
+        end
+    end
+
+    -- Run loops
     RS.RenderStepped:Connect(function()
         if plr.Character and plr.Character:FindFirstChild("Humanoid") then
             plr.Character.Humanoid.WalkSpeed = config.WalkSpeed
         end
     end)
 
-    print("FishIt AutoFishing HP Fix Loaded.")
+    while task.wait(0.5) do
+        pcall(function()
+            if config.AutoFish then
+                autoFish()
+            end
+            if config.InstantCatch then
+                instantCatch()
+            end
+            if config.AutoSell then
+                autoSell()
+            end
+        end)
+    end
 end
