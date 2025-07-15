@@ -1,10 +1,10 @@
--- FishIt Inspector UI dengan Terminal Log & Copy Button -- Menampilkan function & event lalu bisa dicopy
+-- FishIt Inspector Safe Terminal + Copy Button (No Freeze, No Hook)
 
-if game.PlaceId == 121864768012064 then local plr = game.Players.LocalPlayer local UIS = game:GetService("UserInputService") local RS = game:GetService("RunService") local HttpService = game:GetService("HttpService") local Clipboard = setclipboard or toclipboard or (Clipboard and Clipboard.set)
+if game.PlaceId == 121864768012064 then local plr = game.Players.LocalPlayer local UIS = game:GetService("UserInputService") local Clipboard = setclipboard or toclipboard or (Clipboard and Clipboard.set)
 
 -- UI Terminal
 local gui = Instance.new("ScreenGui", plr.PlayerGui)
-gui.Name = "FishItTerminal"
+gui.Name = "FishItInspectorSafeUI"
 
 local frame = Instance.new("Frame", gui)
 frame.Size = UDim2.new(0, 500, 0, 400)
@@ -23,7 +23,7 @@ terminal.ClearTextOnFocus = false
 terminal.MultiLine = true
 terminal.Font = Enum.Font.Code
 terminal.TextSize = 14
-terminal.Text = "[FishIt Terminal Active]\n"
+terminal.Text = "[SAFE REMOTE INSPECTOR]\nTekan F9 untuk scan remote.\nTidak freeze, aman dipakai saat auto mancing aktif."
 
 local copyBtn = Instance.new("TextButton", frame)
 copyBtn.Size = UDim2.new(0, 100, 0, 30)
@@ -45,35 +45,31 @@ copyBtn.MouseButton1Click:Connect(function()
     end
 end)
 
-local function log(text)
-    terminal.Text = terminal.Text..text.."\n"
-end
+local function scanRemote()
+    local tool = plr.Backpack:FindFirstChildOfClass("Tool") or plr.Character:FindFirstChildOfClass("Tool")
+    local log = "[REMOTE SCAN]\n"
 
-log("[Terminal Ready] Coba mancing atau gunakan fitur lain.")
-
--- Hook __namecall
-local old; old = hookmetamethod(game, "__namecall", function(self, ...)
-    if not checkcaller() then
-        local method = getnamecallmethod()
-        if method == "FireServer" or method == "InvokeServer" then
-            local args = {...}
-            log("[Remote]: "..self:GetFullName())
-        end
-    end
-    return old(self, ...)
-end)
-
--- Scan getgc
-task.spawn(function()
-    for i,v in pairs(getgc(true)) do
-        if typeof(v) == "function" then
-            local info = debug.getinfo(v)
-            if info.name and info.name ~= "" then
-                log("[Function]: "..info.name)
+    if tool then
+        for _,v in pairs(tool:GetDescendants()) do
+            if v:IsA("RemoteEvent") or v:IsA("RemoteFunction") then
+                log = log .. "[Remote]: "..v.Name.." ("..v.ClassName..")\n"
             end
         end
+    else
+        log = log.."> Tidak ada tool aktif.\n"
+    end
+
+    terminal.Text = log.."\nTekan F9 untuk scan ulang."
+end
+
+-- Tekan F9 buat refresh
+UIS.InputBegan:Connect(function(key)
+    if key.KeyCode == Enum.KeyCode.F9 then
+        scanRemote()
     end
 end)
+
+scanRemote()
 
 end
 
