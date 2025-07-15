@@ -1,10 +1,10 @@
--- FishIt Inspector Safe Terminal + Copy Button (No Freeze, No Hook)
+-- FishIt Safe Remote Scanner (Khusus Delta Android, Tanpa Copy Button)
 
-if game.PlaceId == 121864768012064 then local plr = game.Players.LocalPlayer local UIS = game:GetService("UserInputService") local Clipboard = setclipboard or toclipboard or (Clipboard and Clipboard.set)
+if game.PlaceId == 121864768012064 then local plr = game.Players.LocalPlayer local UIS = game:GetService("UserInputService")
 
 -- UI Terminal
 local gui = Instance.new("ScreenGui", plr.PlayerGui)
-gui.Name = "FishItInspectorSafeUI"
+gui.Name = "FishItAndroidScanner"
 
 local frame = Instance.new("Frame", gui)
 frame.Size = UDim2.new(0, 500, 0, 400)
@@ -13,7 +13,7 @@ frame.BackgroundColor3 = Color3.fromRGB(15,15,15)
 frame.BorderSizePixel = 0
 
 local terminal = Instance.new("TextBox", frame)
-terminal.Size = UDim2.new(1, -20, 1, -60)
+terminal.Size = UDim2.new(1, -20, 1, -20)
 terminal.Position = UDim2.new(0, 10, 0, 10)
 terminal.BackgroundColor3 = Color3.fromRGB(25,25,25)
 terminal.TextColor3 = Color3.new(0,1,0)
@@ -23,27 +23,8 @@ terminal.ClearTextOnFocus = false
 terminal.MultiLine = true
 terminal.Font = Enum.Font.Code
 terminal.TextSize = 14
-terminal.Text = "[SAFE REMOTE INSPECTOR]\nTekan F9 untuk scan remote.\nTidak freeze, aman dipakai saat auto mancing aktif."
-
-local copyBtn = Instance.new("TextButton", frame)
-copyBtn.Size = UDim2.new(0, 100, 0, 30)
-copyBtn.Position = UDim2.new(1, -110, 1, -40)
-copyBtn.Text = "Copy Log"
-copyBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
-copyBtn.TextColor3 = Color3.new(1,1,1)
-copyBtn.Font = Enum.Font.SourceSansBold
-copyBtn.TextSize = 14
-
-copyBtn.MouseButton1Click:Connect(function()
-    if Clipboard then
-        Clipboard(terminal.Text)
-        copyBtn.Text = "Copied!"
-        wait(1)
-        copyBtn.Text = "Copy Log"
-    else
-        terminal.Text = terminal.Text.."\n[Clipboard Error: Tidak didukung]"
-    end
-end)
+terminal.TextWrapped = true
+terminal.Text = "[SAFE REMOTE SCANNER - ANDROID]\nTekan F9 untuk scan remote di Tool.\nSalin manual dari TextBox ini (Tahan lalu Copy di Android)."
 
 local function scanRemote()
     local tool = plr.Backpack:FindFirstChildOfClass("Tool") or plr.Character:FindFirstChildOfClass("Tool")
@@ -56,10 +37,10 @@ local function scanRemote()
             end
         end
     else
-        log = log.."> Tidak ada tool aktif.\n"
+        log = log.."> Tidak ada Tool aktif.\n"
     end
 
-    terminal.Text = log.."\nTekan F9 untuk scan ulang."
+    terminal.Text = log.."\nTekan F9 untuk scan ulang.\nSalin manual dengan tahan TextBox di Android."
 end
 
 -- Tekan F9 buat refresh
