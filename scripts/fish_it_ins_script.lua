@@ -1,106 +1,159 @@
--- Fish It Delta Executor Script (Basic)
+-- FishIt Auto Fishing Full Version (Open Source Clean UI) -- Dibuat ulang dari versi asli (bisa dimodifikasi bebas)
 
--- Disclaimer: Penggunaan skrip pihak ketiga dapat melanggar TOS Roblox dan berpotensi menyebabkan banned.
--- Gunakan dengan risiko Anda sendiri.
+if game.PlaceId == 121864768012064 then local plr = game.Players.LocalPlayer local UIS = game:GetService("UserInputService") local RS = game:GetService("RunService") local TweenService = game:GetService("TweenService")
 
--- Fungsi untuk menunggu (delay)
-local function wait(seconds)
-    local start = tick()
-    repeat task.wait() until tick() - start >= seconds
+-- SETTINGS
+local config = {
+    AutoFish = false,
+    AutoSell = false,
+    AlwaysPerfect = false,
+    InstantCatch = false,
+    AutoThrow = false,
+    WalkSpeed = 16,
+}
+
+-- UI
+local ScreenGui = Instance.new("ScreenGui", plr.PlayerGui)
+ScreenGui.Name = "FishItUI"
+
+local Frame = Instance.new("Frame", ScreenGui)
+Frame.Size = UDim2.new(0, 250, 0, 300)
+Frame.Position = UDim2.new(0.05, 0, 0.1, 0)
+Frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+Frame.BackgroundTransparency = 0.1
+Frame.BorderSizePixel = 0
+
+local function createToggle(name, posY, callback)
+    local toggle = Instance.new("TextButton", Frame)
+    toggle.Size = UDim2.new(0, 230, 0, 25)
+    toggle.Position = UDim2.new(0, 10, 0, posY)
+    toggle.BackgroundColor3 = Color3.fromRGB(50,50,50)
+    toggle.TextColor3 = Color3.new(1,1,1)
+    toggle.Text = "[OFF] "..name
+    toggle.MouseButton1Click:Connect(function()
+        local state = not callback()
+        toggle.Text = (state and "[ON] " or "[OFF] ")..name
+    end)
 end
 
--- Fungsi Auto-Fish dasar
-local function autoFish()
-    local player = game.Players.LocalPlayer
-    local character = player.Character
-    if not character then return end
+local function createSlider(name, posY, min, max, callback)
+    local label = Instance.new("TextLabel", Frame)
+    label.Size = UDim2.new(0, 230, 0, 20)
+    label.Position = UDim2.new(0, 10, 0, posY)
+    label.TextColor3 = Color3.new(1,1,1)
+    label.BackgroundTransparency = 1
+    label.Text = name..": "..config.WalkSpeed
 
-    local humanoid = character:FindFirstChildOfClass("Humanoid")
-    local fishingRod = character:FindFirstChild("FishingRod") -- Sesuaikan nama pancing jika berbeda
+    local slider = Instance.new("TextButton", Frame)
+    slider.Size = UDim2.new(0, 230, 0, 15)
+    slider.Position = UDim2.new(0, 10, 0, posY+20)
+    slider.BackgroundColor3 = Color3.fromRGB(80,80,80)
+    slider.Text = ""
 
-    if humanoid and fishingRod then
-        print("Mulai Auto-Fish...")
-        while true do
-            -- Cek apakah pancing sudah dipegang
-            if fishingRod.Parent == character then
-                -- Klik untuk melempar pancing (simulasi)
-                -- Ini adalah bagian yang paling sulit disimulasikan tanpa akses ke event internal game.
-                -- Biasanya melibatkan event mouse.Button1Down/Up atau RemoteEvent.
-                -- Contoh placeholder (mungkin tidak berfungsi tanpa reverse engineering game):
-                -- game:GetService("ContextActionService"):BindAction("ThrowRod", function() return Enum.ContextActionResult.Pass end, false, Enum.UserInputType.MouseButton1)
-                -- wait(0.1)
-                -- game:GetService("ContextActionService"):UnbindAction("ThrowRod")
+    slider.MouseButton1Down:Connect(function()
+        local con
+        con = RS.RenderStepped:Connect(function()
+            local mouseX = UIS:GetMouseLocation().X
+            local relX = math.clamp((mouseX - slider.AbsolutePosition.X)/slider.AbsoluteSize.X, 0, 1)
+            local value = math.floor(min + (max-min)*relX)
+            callback(value)
+            label.Text = name..": "..value
+        end)
+        UIS.InputEnded:Wait()
+        con:Disconnect()
+    end)
+end
 
-                -- Untuk tujuan demonstrasi, kita akan berasumsi pancing sudah dilempar dan menunggu ikan.
-                print("Pancing dilempar, menunggu ikan...")
-                wait(math.random(5, 15)) -- Tunggu antara 5-15 detik untuk ikan menggigit
+-- Create Toggles
+createToggle("Auto Fish", 10, function()
+    config.AutoFish = not config.AutoFish
+    return config.AutoFish
+end)
 
-                -- Simulasi menggulung pancing (jika ada event khusus)
-                -- Ini juga memerlukan reverse engineering. Contoh placeholder:
-                -- game:GetService("ContextActionService"):BindAction("ReelFish", function() return Enum.ContextActionResult.Pass end, false, Enum.UserInputType.MouseButton1)
-                -- wait(0.1)
-                -- game:GetService("ContextActionService"):UnbindAction("ReelFish")
+createToggle("Auto Sell", 40, function()
+    config.AutoSell = not config.AutoSell
+    return config.AutoSell
+end)
 
-                print("Mencoba menggulung pancing...")
-                wait(2) -- Tunggu proses menggulung
+createToggle("Always Perfect", 70, function()
+    config.AlwaysPerfect = not config.AlwaysPerfect
+    return config.AlwaysPerfect
+end)
 
-                -- Cek apakah ikan tertangkap (ini sangat bergantung pada bagaimana game menangani inventaris/notifikasi)
-                -- Ini adalah bagian yang sangat sulit untuk diimplementasikan secara generik.
-                -- Skrip yang lebih canggih akan memantau perubahan di Player.Backpack atau Player.leaderstats.
-                print("Ikan mungkin tertangkap.")
-            else
-                print("Pancing tidak ditemukan atau tidak dipegang. Pastikan Anda memegang pancing.")
-                wait(5)
-            end
-            wait(1) -- Jeda sebelum mencoba lagi
-        end
-    else
-        print("Pemain atau pancing tidak ditemukan.")
+createToggle("Instant Catch", 100, function()
+    config.InstantCatch = not config.InstantCatch
+    return config.InstantCatch
+end)
+
+createToggle("Auto Throw", 130, function()
+    config.AutoThrow = not config.AutoThrow
+    return config.AutoThrow
+end)
+
+createSlider("WalkSpeed", 160, 16, 100, function(val)
+    config.WalkSpeed = val
+end)
+
+-- Functionality
+local function autoSell()
+    local sellPart = workspace:FindFirstChild("SellArea")
+    if sellPart and (plr.Character.HumanoidRootPart.Position - sellPart.Position).Magnitude < 10 then
+        firetouchinterest(plr.Character.HumanoidRootPart, sellPart, 0)
+        wait(0.1)
+        firetouchinterest(plr.Character.HumanoidRootPart, sellPart, 1)
     end
 end
 
--- UI sederhana untuk mengaktifkan/menonaktifkan Auto-Fish
-local ScreenGui = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
-local ToggleButton = Instance.new("TextButton")
-
-ScreenGui.Name = "FishItScriptGUI"
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-
-Frame.Size = UDim2.new(0, 200, 0, 100)
-Frame.Position = UDim2.new(0.5, -100, 0.5, -50)
-Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-Frame.BorderSizePixel = 0
-Frame.Parent = ScreenGui
-
-ToggleButton.Size = UDim2.new(0.8, 0, 0.4, 0)
-ToggleButton.Position = UDim2.new(0.1, 0, 0.3, 0)
-ToggleButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
-ToggleButton.Text = "Auto-Fish: OFF"
-ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ToggleButton.Font = Enum.Font.SourceSansBold
-ToggleButton.TextSize = 20
-ToggleButton.Parent = Frame
-
-local isAutoFishing = false
-local autoFishThread = nil
-
-ToggleButton.MouseButton1Click:Connect(function()
-    isAutoFishing = not isAutoFishing
-    if isAutoFishing then
-        ToggleButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-        ToggleButton.Text = "Auto-Fish: ON"
-        autoFishThread = task.spawn(autoFish)
-    else
-        ToggleButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
-        ToggleButton.Text = "Auto-Fish: OFF"
-        if autoFishThread then
-            task.cancel(autoFishThread)
-            autoFishThread = nil
+local function autoFish()
+    local gui = plr.PlayerGui:FindFirstChild("FishItUI")
+    if gui then
+        local bar = gui:FindFirstChild("Bar")
+        if bar then
+            if config.AlwaysPerfect then
+                keypress(0x45)
+                wait(0.1)
+                keyrelease(0x45)
+            end
+        else
+            if config.AutoThrow then
+                keypress(0x45)
+                wait(0.1)
+                keyrelease(0x45)
+            end
         end
+    end
+end
+
+local function instantCatch()
+    local tool = plr.Character:FindFirstChildOfClass("Tool")
+    if tool and tool:FindFirstChild("FishModule") then
+        local event = tool.FishModule:FindFirstChild("CatchFish")
+        if event and event:IsA("RemoteEvent") then
+            event:FireServer()
+        end
+    end
+end
+
+-- Run loops
+RS.RenderStepped:Connect(function()
+    if plr.Character and plr.Character:FindFirstChild("Humanoid") then
+        plr.Character.Humanoid.WalkSpeed = config.WalkSpeed
     end
 end)
 
-print("Skrip Fish It Delta Executor dimuat. Klik tombol untuk mengaktifkan Auto-Fish.")
+while task.wait(0.5) do
+    pcall(function()
+        if config.AutoFish then
+            autoFish()
+        end
+        if config.InstantCatch then
+            instantCatch()
+        end
+        if config.AutoSell then
+            autoSell()
+        end
+    end)
+end
 
+end
 
