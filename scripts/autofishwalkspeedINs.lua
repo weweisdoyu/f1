@@ -1,3 +1,5 @@
+-- Skrip buat auto mancing dan berjalsn cepat game fish it, aman dan nyaman
+-- Developer INS
 if game.PlaceId == 121864768012064 then
     local Players = game:GetService("Players")
     local RunService = game:GetService("RunService")
