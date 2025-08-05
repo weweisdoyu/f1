@@ -1,100 +1,56 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>Kunci Jawaban Otomatis CSIT</title>
-<style>
-  body {
-    font-family: "Google Sans", Roboto, Arial, sans-serif;
-    background: #f0ebf8;
-    margin: 0;
-    padding: 0;
-  }
-  header {
-    background: #673ab7;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  main {
-    max-width: 900px;
-    margin: 30px auto;
-    background: white;
-    padding: 20px 30px;
-    border-radius: 8px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-  }
-  h2 {
-    font-size: 20px;
-    font-weight: 500;
-    margin-bottom: 10px;
-    color: #202124;
-  }
-  textarea {
-    width: 100%;
-    height: 200px;
-    border: 1px solid #dadce0;
-    border-radius: 4px;
-    padding: 10px;
-    font-family: monospace;
-    font-size: 14px;
-    box-sizing: border-box;
-    resize: vertical;
-  }
-  button {
-    background: #673ab7;
-    color: white;
-    padding: 10px 24px;
-    font-size: 14px;
-    font-weight: 500;
-    border: none;
-    border-radius: 4px;
-    margin-top: 12px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  button:hover {
-    background: #5e35b1;
-  }
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 20px;
-    font-size: 14px;
-  }
-  th {
-    background: #673ab7;
-    color: white;
-    padding: 10px;
-    text-align: left;
-  }
-  td {
-    border: 1px solid #dadce0;
-    padding: 8px;
-    vertical-align: top;
-  }
-  tr:nth-child(even) {
-    background: #f8f9fa;
-  }
-</style>
+  <meta charset="UTF-8">
+  <title>Kunci Jawaban Otomatis – CSIT XI TSM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --primary:#8e44ad;
+      --primary-light:#f3e5f5;
+      --border:#e0e0e0;
+      --text:#202124;
+      --secondary:#5f6368;
+    }
+    *{box-sizing:border-box;font-family:'Google Sans',Roboto,Arial,sans-serif;color:var(--text)}
+    body{margin:0;background:#fafafa}
+    header{background:var(--primary);padding:20px 0;box-shadow:0 2px 4px rgba(0,0,0,.2)}
+    .header-inner{max-width:720px;margin:auto;padding:0 24px}
+    header h1{color:#fff;font-weight:500;font-size:22px;margin:0}
+    .wrapper{max-width:720px;margin:48px auto;padding:0 24px}
+    .card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:24px;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+    .card h2{font-size:20px;font-weight:500;margin:0 0 8px}
+    .subtitle{font-size:14px;color:var(--secondary);margin-bottom:16px}
+    textarea{width:100%;min-height:150px;border:1px solid var(--border);border-radius:4px;padding:12px;font-size:14px;resize:vertical}
+    textarea:focus{border-color:var(--primary);outline:none}
+    .btn{display:inline-block;background:var(--primary);color:#fff;border:none;border-radius:4px;padding:12px 24px;font-size:14px;font-weight:500;margin-top:12px;cursor:pointer}
+    .btn:hover{filter:brightness(1.1)}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{padding:12px 16px;font-size:14px;text-align:left}
+    th{background:var(--primary-light);color:var(--primary);font-weight:500}
+    tr:nth-child(even){background:#fafafa}
+    tr{border-top:1px solid var(--border)}
+    .alert{color:#d93025;font-size:14px;margin-top:12px}
+  </style>
 </head>
 <body>
 
-<header>Kunci Jawaban Otomatis - CSIT XI TSM</header>
+<header>
+  <div class="header-inner">
+    <h1>Kunci Jawaban Otomatis – CSIT XI TSM</h1>
+  </div>
+</header>
 
-<main>
-  <h2>Tempelkan teks soal dari Google Form</h2>
-  <p>Salin semua teks soal dari Google Form, lalu tempel di kotak bawah. Klik <b>Proses</b> untuk melihat jawaban sesuai urutan soal.</p>
-
-  <textarea id="inputText" placeholder="Tempelkan teks dari Google Form di sini..."></textarea>
-  <br>
-  <button onclick="proses()">Proses</button>
+<div class="wrapper">
+  <div class="card">
+    <h2>Form Input Soal</h2>
+    <p class="subtitle">Tempelkan teks hasil copy Google Form di bawah, lalu klik <strong>Proses</strong>.</p>
+    <textarea id="inputText" placeholder="Tempelkan teks di sini..."></textarea>
+    <button class="btn" onclick="proses()">Proses</button>
+  </div>
 
   <div id="hasil"></div>
-</main>
+</div>
 
 <script>
 const kunciJawaban = {
@@ -131,8 +87,7 @@ const kunciJawaban = {
 
 function proses() {
   const text = document.getElementById("inputText").value;
-  const baris = text.split("\n").map(b => b.trim()).filter(b => b.length > 0);
-
+  const baris = text.split("\n").map(b => b.trim()).filter(b => b);
   let hasil = [];
   baris.forEach(b => {
     for (let kunci in kunciJawaban) {
@@ -144,19 +99,17 @@ function proses() {
   });
 
   if (hasil.length === 0) {
-    document.getElementById("hasil").innerHTML = "<p style='color:red'>Tidak ada soal yang cocok ditemukan!</p>";
+    document.getElementById("hasil").innerHTML = "<div class='card alert'>Tidak ada soal yang cocok ditemukan!</div>";
     return;
   }
 
-  let html = "<table><tr><th>No</th><th>Pertanyaan</th><th>Jawaban Benar</th></tr>";
+  let html = "<div class='card'><h2>Hasil Kunci Jawaban</h2><table><thead><tr><th style='width:40px'>No</th><th>Pertanyaan</th><th>Jawaban</th></tr></thead><tbody>";
   hasil.forEach((item, i) => {
     html += `<tr><td>${i+1}</td><td>${item.soal}</td><td>${item.jawaban}</td></tr>`;
   });
-  html += "</table>";
-
+  html += "</tbody></table></div>";
   document.getElementById("hasil").innerHTML = html;
 }
 </script>
-
 </body>
 </html>
