@@ -1,108 +1,99 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Kunci Jawaban Otomatis – CSIT XI TSM</title>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary: #8e44ad;
-      --border: #dadce0;
-      --text: #202124;
-      --green: #188038;
-      --green-bg: #e6f4ea;
-    }
-    * {
-      box-sizing: border-box;
-      font-family: 'Google Sans', Roboto, Arial, sans-serif;
-    }
-    body {
-      margin: 0;
-      background: #f1f3f4;
-      color: var(--text);
-    }
-    header {
-      background: var(--primary);
-      padding: 20px;
-      color: white;
-      font-size: 18px;
-      font-weight: 500;
-      text-align: center;
-    }
-    .wrapper {
-      max-width: 800px;
-      margin: auto;
-      padding: 16px;
-    }
-    .card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 16px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-    }
-    .question {
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--green);
-      margin-bottom: 8px;
-    }
-    .answer {
-      background: var(--green-bg);
-      padding: 10px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      font-size: 14px;
-    }
-    .check {
-      color: var(--green);
-      font-weight: bold;
-      margin-right: 8px;
-      font-size: 16px;
-    }
-    textarea {
-      width: 100%;
-      min-height: 120px;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      margin-bottom: 10px;
-      font-size: 14px;
-      resize: vertical;
-    }
-    textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-    button {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 14px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      filter: brightness(1.1);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kunci Jawaban Otomatis – CSIT XI TSM</title>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #8e44ad;
+    --correct-bg: #e6f4ea;
+    --correct-border: #34a853;
+    --correct-text: #137333;
+    --border: #dadce0;
+    --text: #202124;
+    --secondary: #5f6368;
+  }
+  * {
+    box-sizing: border-box;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+    color: var(--text);
+  }
+  body {
+    margin: 0;
+    background: #f1f3f4;
+    padding: 16px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .question {
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .option {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    border: 1px solid transparent;
+  }
+  .option input {
+    margin-right: 12px;
+  }
+  .correct {
+    background: var(--correct-bg);
+    border: 1px solid var(--correct-border);
+    color: var(--correct-text);
+    position: relative;
+  }
+  .correct::after {
+    content: "✔";
+    position: absolute;
+    right: 12px;
+    color: var(--correct-border);
+    font-weight: bold;
+  }
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    resize: vertical;
+    font-size: 14px;
+  }
+  button {
+    margin-top: 8px;
+    padding: 10px 20px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  button:hover {
+    filter: brightness(1.1);
+  }
+</style>
 </head>
 <body>
 
-<header>Kunci Jawaban Otomatis – CSIT XI TSM</header>
-
-<div class="wrapper">
-  <div class="card">
-    <p>Tempelkan teks hasil copy dari Google Form di bawah ini, lalu klik <b>Proses</b>.</p>
-    <textarea id="inputText" placeholder="Tempelkan teks di sini..."></textarea>
-    <button onclick="proses()">Proses</button>
-  </div>
-
-  <div id="hasil"></div>
+<div class="card">
+  <h2>Form Input Soal</h2>
+  <p style="color:var(--secondary);font-size:14px;">Tempelkan teks hasil copy Google Form di bawah, lalu klik <b>Proses</b>.</p>
+  <textarea id="inputText" placeholder="Tempelkan teks di sini..."></textarea>
+  <button onclick="proses()">Proses</button>
 </div>
+
+<div id="hasil"></div>
 
 <script>
 const kunciJawaban = {
@@ -140,30 +131,28 @@ const kunciJawaban = {
 function proses() {
   const text = document.getElementById("inputText").value;
   const baris = text.split("\n").map(b => b.trim()).filter(b => b);
-  let hasil = [];
+  let html = "";
+
   baris.forEach(b => {
     for (let kunci in kunciJawaban) {
       if (b.startsWith(kunci)) {
-        hasil.push({ soal: b, jawaban: kunciJawaban[kunci] });
+        html += `
+          <div class="card">
+            <div class="question">${b}</div>
+            <label class="option correct">
+              <input type="radio" checked disabled> ${kunciJawaban[kunci]}
+            </label>
+          </div>
+        `;
         break;
       }
     }
   });
 
-  if (hasil.length === 0) {
-    document.getElementById("hasil").innerHTML = "<div class='card'>Tidak ada soal yang cocok ditemukan!</div>";
-    return;
+  if (!html) {
+    html = `<div class="card" style="color:red;">Tidak ada soal yang cocok ditemukan!</div>`;
   }
 
-  let html = "";
-  hasil.forEach((item, i) => {
-    html += `
-      <div class="card">
-        <div class="question">${i+1}. ${item.soal}</div>
-        <div class="answer"><span class="check">✔</span> ${item.jawaban}</div>
-      </div>
-    `;
-  });
   document.getElementById("hasil").innerHTML = html;
 }
 </script>
