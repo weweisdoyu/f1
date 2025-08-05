@@ -1,99 +1,162 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kunci Jawaban Otomatis – CSIT XI TSM</title>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --primary: #8e44ad;
-    --correct-bg: #e6f4ea;
-    --correct-border: #34a853;
-    --correct-text: #137333;
-    --border: #dadce0;
-    --text: #202124;
-    --secondary: #5f6368;
-  }
-  * {
-    box-sizing: border-box;
-    font-family: 'Google Sans', Roboto, Arial, sans-serif;
-    color: var(--text);
-  }
-  body {
-    margin: 0;
-    background: #f1f3f4;
-    padding: 16px;
-  }
-  .card {
-    background: #fff;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  }
-  .question {
-    font-weight: 500;
-    margin-bottom: 12px;
-  }
-  .option {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    border-radius: 6px;
-    margin-bottom: 6px;
-    border: 1px solid transparent;
-  }
-  .option input {
-    margin-right: 12px;
-  }
-  .correct {
-    background: var(--correct-bg);
-    border: 1px solid var(--correct-border);
-    color: var(--correct-text);
-    position: relative;
-  }
-  .correct::after {
-    content: "✔";
-    position: absolute;
-    right: 12px;
-    color: var(--correct-border);
-    font-weight: bold;
-  }
-  textarea {
-    width: 100%;
-    min-height: 120px;
-    padding: 12px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    resize: vertical;
-    font-size: 14px;
-  }
-  button {
-    margin-top: 8px;
-    padding: 10px 20px;
-    background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-  }
-  button:hover {
-    filter: brightness(1.1);
-  }
-</style>
+  <meta charset="UTF-8">
+  <title>Google Form + Kunci Jawaban Otomatis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8e44ad;
+      --primary-light: #f3e5f5;
+      --border: #e0e0e0;
+      --text: #202124;
+      --secondary: #5f6368;
+    }
+    * {
+      box-sizing: border-box;
+      font-family: 'Google Sans', Roboto, Arial, sans-serif;
+      color: var(--text);
+    }
+    body {
+      margin: 0;
+      background: #fafafa;
+    }
+    header {
+      background: var(--primary);
+      padding: 16px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,.2);
+      text-align: center;
+    }
+    header h1 {
+      color: #fff;
+      font-weight: 500;
+      font-size: 20px;
+      margin: 0;
+    }
+    .wrapper {
+      max-width: 900px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 2px rgba(0,0,0,.1);
+    }
+    .card h2 {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: var(--secondary);
+      margin-bottom: 12px;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 10px;
+      font-size: 14px;
+      resize: vertical;
+    }
+    input:focus, textarea:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .btn:hover {
+      filter: brightness(1.1);
+    }
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      border-radius: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+    th, td {
+      padding: 8px 12px;
+      font-size: 14px;
+      text-align: left;
+    }
+    th {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 500;
+    }
+    tr:nth-child(even) {
+      background: #fafafa;
+    }
+    tr {
+      border-top: 1px solid var(--border);
+    }
+    .alert {
+      color: #d93025;
+      font-size: 14px;
+      margin-top: 12px;
+    }
+    @media (max-width: 768px) {
+      iframe {
+        height: 450px;
+      }
+      th, td {
+        font-size: 13px;
+        word-break: break-word;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div class="card">
-  <h2>Form Input Soal</h2>
-  <p style="color:var(--secondary);font-size:14px;">Tempelkan teks hasil copy Google Form di bawah, lalu klik <b>Proses</b>.</p>
-  <textarea id="inputText" placeholder="Tempelkan teks di sini..."></textarea>
-  <button onclick="proses()">Proses</button>
-</div>
+<header>
+  <h1>Google Form + Kunci Jawaban Otomatis</h1>
+</header>
 
-<div id="hasil"></div>
+<div class="wrapper">
+
+  <!-- Input link Google Form -->
+  <div class="card">
+    <h2>Preview Google Form</h2>
+    <p class="subtitle">Tempelkan link Google Form di bawah, lalu klik <b>Tampilkan</b>.</p>
+    <input type="text" id="formLink" placeholder="https://docs.google.com/forms/d/e/...">
+    <button class="btn" onclick="loadForm()">Tampilkan</button>
+    <div id="formPreview" style="margin-top:16px; display:none;">
+      <iframe id="googleForm" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <!-- Input soal & proses jawaban -->
+  <div class="card">
+    <h2>Kunci Jawaban Otomatis</h2>
+    <p class="subtitle">Tempelkan soal yang sudah di-copy dari form di atas.</p>
+    <textarea id="inputText" placeholder="Tempelkan teks soal di sini..."></textarea>
+    <button class="btn" onclick="proses()">Proses</button>
+  </div>
+
+  <!-- Hasil -->
+  <div id="hasil"></div>
+
+</div>
 
 <script>
 const kunciJawaban = {
@@ -128,31 +191,40 @@ const kunciJawaban = {
   "Fuel gauge berfungsi untuk menunjukkan": "Volume bahan bakar"
 };
 
+function loadForm() {
+  const link = document.getElementById('formLink').value.trim();
+  if (!link.includes("docs.google.com/forms")) {
+    alert("Masukkan link Google Form yang valid!");
+    return;
+  }
+  let embedLink = link.replace("/viewform", "/viewform?embedded=true");
+  document.getElementById('googleForm').src = embedLink;
+  document.getElementById('formPreview').style.display = 'block';
+}
+
 function proses() {
   const text = document.getElementById("inputText").value;
   const baris = text.split("\n").map(b => b.trim()).filter(b => b);
-  let html = "";
-
+  let hasil = [];
   baris.forEach(b => {
     for (let kunci in kunciJawaban) {
       if (b.startsWith(kunci)) {
-        html += `
-          <div class="card">
-            <div class="question">${b}</div>
-            <label class="option correct">
-              <input type="radio" checked disabled> ${kunciJawaban[kunci]}
-            </label>
-          </div>
-        `;
+        hasil.push({ soal: b, jawaban: kunciJawaban[kunci] });
         break;
       }
     }
   });
 
-  if (!html) {
-    html = `<div class="card" style="color:red;">Tidak ada soal yang cocok ditemukan!</div>`;
+  if (hasil.length === 0) {
+    document.getElementById("hasil").innerHTML = "<div class='card alert'>Tidak ada soal yang cocok ditemukan!</div>";
+    return;
   }
 
+  let html = "<div class='card'><h2>Hasil Kunci Jawaban</h2><table><thead><tr><th>No</th><th>Pertanyaan</th><th>Jawaban</th></tr></thead><tbody>";
+  hasil.forEach((item, i) => {
+    html += `<tr><td>${i+1}</td><td>${item.soal}</td><td>${item.jawaban}</td></tr>`;
+  });
+  html += "</tbody></table></div>";
   document.getElementById("hasil").innerHTML = html;
 }
 </script>
