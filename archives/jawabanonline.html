@@ -1,172 +1,104 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kunci Jawaban Otomatis – CSIT XI TSM</title>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --primary: #8e44ad;
-    --primary-light: #f3e5f5;
-    --border: #e0e0e0;
-    --text: #202124;
-    --secondary: #5f6368;
-  }
-  * {
-    box-sizing: border-box;
-    font-family: 'Google Sans', Roboto, Arial, sans-serif;
-    color: var(--text);
-  }
-  body {
-    margin: 0;
-    background: #fafafa;
-  }
-  header {
-    background: var(--primary);
-    padding: 20px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,.2);
-  }
-  .header-inner {
-    max-width: 720px;
-    margin: auto;
-    padding: 0 16px;
-  }
-  header h1 {
-    color: #fff;
-    font-weight: 500;
-    font-size: 22px;
-    margin: 0;
-  }
-  .wrapper {
-    max-width: 720px;
-    margin: 48px auto;
-    padding: 0 16px;
-  }
-  .card {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 24px;
-    margin-bottom: 24px;
-    box-shadow: 0 1px 2px rgba(0,0,0,.1);
-  }
-  .card h2 {
-    font-size: 20px;
-    font-weight: 500;
-    margin: 0 0 8px;
-  }
-  .subtitle {
-    font-size: 14px;
-    color: var(--secondary);
-    margin-bottom: 16px;
-  }
-  textarea {
-    width: 100%;
-    min-height: 150px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 12px;
-    font-size: 14px;
-    resize: vertical;
-  }
-  textarea:focus {
-    border-color: var(--primary);
-    outline: none;
-  }
-  .btn {
-    display: inline-block;
-    background: var(--primary);
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 12px 24px;
-    font-size: 14px;
-    font-weight: 500;
-    margin-top: 12px;
-    cursor: pointer;
-  }
-  .btn:hover {
-    filter: brightness(1.1);
-  }
-  .table-container {
-    width: 100%;
-    overflow-x: auto; /* 📌 Scroll horizontal di HP */
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 500px; /* Biar tabel gak terlalu sempit di HP */
-  }
-  th, td {
-    padding: 12px 16px;
-    font-size: 14px;
-    text-align: left;
-    white-space: nowrap; /* 📌 Biar teks nggak patah aneh-aneh */
-  }
-  th {
-    background: var(--primary-light);
-    color: var(--primary);
-    font-weight: 500;
-  }
-  tr:nth-child(even) {
-    background: #fafafa;
-  }
-  tr {
-    border-top: 1px solid var(--border);
-  }
-  .alert {
-    color: #d93025;
-    font-size: 14px;
-    margin-top: 12px;
-  }
-
-  /* 📱 Mobile responsive */
-  @media (max-width: 600px) {
-    header h1 {
+  <meta charset="UTF-8">
+  <title>Kunci Jawaban Otomatis – CSIT XI TSM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8e44ad;
+      --border: #dadce0;
+      --text: #202124;
+      --green: #188038;
+      --green-bg: #e6f4ea;
+    }
+    * {
+      box-sizing: border-box;
+      font-family: 'Google Sans', Roboto, Arial, sans-serif;
+    }
+    body {
+      margin: 0;
+      background: #f1f3f4;
+      color: var(--text);
+    }
+    header {
+      background: var(--primary);
+      padding: 20px;
+      color: white;
       font-size: 18px;
+      font-weight: 500;
       text-align: center;
     }
     .wrapper {
-      margin: 24px auto;
-      padding: 0 12px;
-    }
-    .card {
+      max-width: 800px;
+      margin: auto;
       padding: 16px;
     }
-    .card h2 {
-      font-size: 18px;
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    .question {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+    .answer {
+      background: var(--green-bg);
+      padding: 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+    }
+    .check {
+      color: var(--green);
+      font-weight: bold;
+      margin-right: 8px;
+      font-size: 16px;
     }
     textarea {
-      min-height: 120px;
-      font-size: 13px;
-    }
-    .btn {
       width: 100%;
-      padding: 14px;
-      font-size: 15px;
+      min-height: 120px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin-bottom: 10px;
+      font-size: 14px;
+      resize: vertical;
     }
-    th, td {
-      font-size: 12px;
-      padding: 8px;
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
     }
-  }
-</style>
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      filter: brightness(1.1);
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <div class="header-inner">
-    <h1>Kunci Jawaban Otomatis – CSIT XI TSM</h1>
-  </div>
-</header>
+<header>Kunci Jawaban Otomatis – CSIT XI TSM</header>
 
 <div class="wrapper">
   <div class="card">
-    <h2>Form Input Soal</h2>
-    <p class="subtitle">Tempelkan teks hasil copy Google Form di bawah, lalu klik <strong>Proses</strong>.</p>
+    <p>Tempelkan teks hasil copy dari Google Form di bawah ini, lalu klik <b>Proses</b>.</p>
     <textarea id="inputText" placeholder="Tempelkan teks di sini..."></textarea>
-    <button class="btn" onclick="proses()">Proses</button>
+    <button onclick="proses()">Proses</button>
   </div>
 
   <div id="hasil"></div>
@@ -219,15 +151,19 @@ function proses() {
   });
 
   if (hasil.length === 0) {
-    document.getElementById("hasil").innerHTML = "<div class='card alert'>Tidak ada soal yang cocok ditemukan!</div>";
+    document.getElementById("hasil").innerHTML = "<div class='card'>Tidak ada soal yang cocok ditemukan!</div>";
     return;
   }
 
-  let html = "<div class='card'><h2>Hasil Kunci Jawaban</h2><div class='table-container'><table><thead><tr><th style='width:40px'>No</th><th>Pertanyaan</th><th>Jawaban</th></tr></thead><tbody>";
+  let html = "";
   hasil.forEach((item, i) => {
-    html += `<tr><td>${i+1}</td><td>${item.soal}</td><td>${item.jawaban}</td></tr>`;
+    html += `
+      <div class="card">
+        <div class="question">${i+1}. ${item.soal}</div>
+        <div class="answer"><span class="check">✔</span> ${item.jawaban}</div>
+      </div>
+    `;
   });
-  html += "</tbody></table></div></div>";
   document.getElementById("hasil").innerHTML = html;
 }
 </script>
