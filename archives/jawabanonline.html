@@ -2,87 +2,88 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Kunci Jawaban CSIT - XI TSM</title>
+<title>Kunci Jawaban Otomatis CSIT</title>
 <style>
-  body { font-family: Arial, sans-serif; margin: 20px; }
-  textarea { width: 100%; height: 200px; }
-  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-  th, td { border: 1px solid #ccc; padding: 8px; }
-  th { background: #f4f4f4; }
+  body { font-family: Arial, sans-serif; padding: 20px; background: #f8f9fa; }
+  h2 { color: #333; }
+  textarea { width: 100%; height: 200px; margin-bottom: 10px; font-family: monospace; }
+  button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+  table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+  th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  th { background: #007bff; color: white; }
+  tr:nth-child(even) { background: #f2f2f2; }
 </style>
 </head>
 <body>
 
-<h1>Kunci Jawaban Otomatis</h1>
-<p>Tempelkan teks dari Google Form di bawah ini, lalu klik <b>Proses</b>.</p>
+<h2>Kunci Jawaban Otomatis - CSIT XI TSM</h2>
+<p>Tempelkan teks hasil copy Google Form di bawah, lalu klik <b>Proses</b> untuk menampilkan jawaban sesuai urutan soalnya.</p>
 
-<textarea id="formInput" placeholder="Paste teks Google Form di sini..."></textarea><br><br>
-<button onclick="prosesJawaban()">Proses</button>
+<textarea id="inputText" placeholder="Tempelkan teks dari Google Form di sini..."></textarea>
+<br>
+<button onclick="proses()">Proses</button>
 
-<table id="hasilTable" style="display:none;">
-  <thead>
-    <tr>
-      <th>No</th>
-      <th>Pertanyaan</th>
-      <th>Jawaban Benar</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
+<div id="hasil"></div>
 
 <script>
-// Kunci jawaban
 const kunciJawaban = {
-  "Relay digunakan": "Mengendalikan arus besar dengan arus kecil",
-  "Salah satu fungsi panel instrumen": "Menampilkan informasi kendaraan",
-  "Kabel negatif biasanya": "Hitam",
-  "Sensor pada sistem CAN": "Memberikan data ke ECU",
-  "Fungsi utama switch rem": "Mengaktifkan lampu rem",
-  "Sistem CAN sering digunakan": "Kendaraan modern",
-  "Fungsi utama wiring diagram": "Menunjukkan jalur kelistrikan",
-  "Lampu sein berfungsi": "Isyarat belok",
-  "Fungsi ECU": "Mengolah dan mengirim data sensor",
-  "Komunikasi data antar ECU": "CAN Bus",
-  "Komponen penghubung antara aki": "Kabel",
-  "Arus DC": "Direct Current",
-  "Komponen pelindung rangkaian listrik": "Sekring",
-  "Komponen yang menunjukkan jarak tempuh": "Trip meter",
-  "Fungsi utama aki": "Menyimpan dan menyuplai arus listrik",
-  "Komponen yang menunjukkan kecepatan": "Spidometer",
-  "Jenis arus yang digunakan oleh aki": "DC",
-  "Jenis lampu utama modern": "LED",
-  "Fungsi regulator": "Menstabilkan tegangan output",
-  "Lampu hazard": "Berhenti mendadak atau darurat",
-  "Fungsi utama sistem kelistrikan": "Memberi tenaga listrik pada komponen",
-  "Fungsi utama sekering": "Melindungi dari arus pendek",
-  "Sensor cahaya": "Menyalakan lampu secara otomatis",
-  "Komponen mengubah arus bolak-balik": "Rectifier",
-  "Sistem CAN biasanya terhubung": "Beberapa ECU",
-  "Lampu indikator check engine": "Ada masalah di sistem mesin",
-  "Komponen yang menyimpan data trouble": "ECU",
-  "Jenis kabel yang umum digunakan": "Kabel serabut tembaga",
-  "Keuntungan teknologi jaringan komunikasi CAN": "Mengurangi jumlah kabel",
-  "Fuel gauge": "Volume bahan bakar"
+  "Relay digunakan dalam sistem kelistrikan untuk": "Mengendalikan arus besar dengan arus kecil",
+  "Salah satu fungsi panel instrumen adalah": "Menampilkan informasi kendaraan",
+  "Kabel negatif biasanya berwarna": "Hitam",
+  "Sensor pada sistem CAN bertugas": "Memberikan data ke ECU",
+  "Fungsi utama switch rem adalah": "Mengaktifkan lampu rem",
+  "Sistem CAN sering digunakan pada": "Kendaraan modern",
+  "Fungsi utama wiring diagram adalah": "Menunjukkan jalur kelistrikan",
+  "Lampu sein berfungsi sebagai": "Isyarat belok",
+  "Fungsi ECU dalam sistem jaringan kendaraan adalah": "Mengolah dan mengirim data sensor",
+  "Komunikasi data antar ECU pada kendaraan modern dilakukan melalui": "CAN Bus",
+  "Komponen penghubung antara aki dan beban listrik disebut": "Kabel",
+  "Arus DC merupakan singkatan dari": "Direct Current",
+  "Komponen pelindung rangkaian listrik dari arus berlebih adalah": "Sekring",
+  "Komponen yang menunjukkan jarak tempuh kendaraan adalah": "Trip meter",
+  "Fungsi utama aki pada sistem kelistrikan sepeda motor adalah": "Menyimpan dan menyuplai arus listrik",
+  "Komponen yang menunjukkan kecepatan kendaraan adalah": "Spidometer",
+  "Jenis arus yang digunakan oleh aki kendaraan adalah": "DC",
+  "Jenis lampu utama modern yang hemat energi adalah": "LED",
+  "Fungsi regulator pada sistem pengisian adalah": "Menstabilkan tegangan output",
+  "Lampu hazard menyala bersamaan menandakan": "Berhenti mendadak atau darurat",
+  "Fungsi utama sistem kelistrikan kendaraan adalah": "Memberi tenaga listrik pada komponen",
+  "Fungsi utama sekering adalah": "Melindungi dari arus pendek",
+  "Sensor cahaya pada sistem penerangan berfungsi untuk": "Menyalakan lampu secara otomatis",
+  "Komponen yang berfungsi mengubah arus bolak-balik menjadi arus searah adalah": "Rectifier",
+  "Sistem CAN biasanya terhubung dengan": "Beberapa ECU",
+  "Lampu indikator check engine menandakan": "Ada masalah di sistem mesin",
+  "Komponen yang menyimpan data trouble pada kendaraan adalah": "ECU",
+  "Jenis kabel yang umum digunakan untuk sistem kelistrikan motor adalah": "Kabel serabut tembaga",
+  "Fuel gauge berfungsi untuk menunjukkan": "Volume bahan bakar"
 };
 
-function prosesJawaban() {
-  const input = document.getElementById("formInput").value;
-  const baris = input.split("\n").map(b => b.trim()).filter(b => b.length > 0);
-  
-  const tbody = document.querySelector("#hasilTable tbody");
-  tbody.innerHTML = "";
-  let no = 1;
+function proses() {
+  const text = document.getElementById("inputText").value;
+  const baris = text.split("\n").map(b => b.trim()).filter(b => b.length > 0);
 
-  for (let pertanyaan in kunciJawaban) {
-    const cocok = baris.find(b => b.toLowerCase().includes(pertanyaan.toLowerCase()));
-    if (cocok) {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `<td>${no++}</td><td>${cocok}</td><td>${kunciJawaban[pertanyaan]}</td>`;
-      tbody.appendChild(tr);
+  let hasil = [];
+  baris.forEach(b => {
+    for (let kunci in kunciJawaban) {
+      if (b.startsWith(kunci)) {
+        hasil.push({ soal: b, jawaban: kunciJawaban[kunci] });
+        break;
+      }
     }
+  });
+
+  if (hasil.length === 0) {
+    document.getElementById("hasil").innerHTML = "<p style='color:red'>Tidak ada soal yang cocok ditemukan!</p>";
+    return;
   }
 
-  document.getElementById("hasilTable").style.display = "table";
+  let html = "<table><tr><th>No</th><th>Pertanyaan</th><th>Jawaban Benar</th></tr>";
+  hasil.forEach((item, i) => {
+    html += `<tr><td>${i+1}</td><td>${item.soal}</td><td>${item.jawaban}</td></tr>`;
+  });
+  html += "</table>";
+
+  document.getElementById("hasil").innerHTML = html;
 }
 </script>
 
