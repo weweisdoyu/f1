@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kunci Jawaban Otomatis – CSIT XI TSM</title>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -29,7 +30,7 @@
   .header-inner {
     max-width: 720px;
     margin: auto;
-    padding: 0 24px;
+    padding: 0 16px;
   }
   header h1 {
     color: #fff;
@@ -40,7 +41,7 @@
   .wrapper {
     max-width: 720px;
     margin: 48px auto;
-    padding: 0 24px;
+    padding: 0 16px;
   }
   .card {
     background: #fff;
@@ -88,15 +89,20 @@
   .btn:hover {
     filter: brightness(1.1);
   }
+  .table-container {
+    width: 100%;
+    overflow-x: auto; /* 📌 Scroll horizontal di HP */
+  }
   table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 12px;
+    min-width: 500px; /* Biar tabel gak terlalu sempit di HP */
   }
   th, td {
     padding: 12px 16px;
     font-size: 14px;
     text-align: left;
+    white-space: nowrap; /* 📌 Biar teks nggak patah aneh-aneh */
   }
   th {
     background: var(--primary-light);
@@ -140,7 +146,7 @@
       padding: 14px;
       font-size: 15px;
     }
-    table, th, td {
+    th, td {
       font-size: 12px;
       padding: 8px;
     }
@@ -217,11 +223,11 @@ function proses() {
     return;
   }
 
-  let html = "<div class='card'><h2>Hasil Kunci Jawaban</h2><table><thead><tr><th style='width:40px'>No</th><th>Pertanyaan</th><th>Jawaban</th></tr></thead><tbody>";
+  let html = "<div class='card'><h2>Hasil Kunci Jawaban</h2><div class='table-container'><table><thead><tr><th style='width:40px'>No</th><th>Pertanyaan</th><th>Jawaban</th></tr></thead><tbody>";
   hasil.forEach((item, i) => {
     html += `<tr><td>${i+1}</td><td>${item.soal}</td><td>${item.jawaban}</td></tr>`;
   });
-  html += "</tbody></table></div>";
+  html += "</tbody></table></div></div>";
   document.getElementById("hasil").innerHTML = html;
 }
 </script>
