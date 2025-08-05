@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Kunci Jawaban CSIT - XI TSM</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  textarea { width: 100%; height: 200px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  th, td { border: 1px solid #ccc; padding: 8px; }
+  th { background: #f4f4f4; }
+</style>
+</head>
+<body>
+
+<h1>Kunci Jawaban Otomatis</h1>
+<p>Tempelkan teks dari Google Form di bawah ini, lalu klik <b>Proses</b>.</p>
+
+<textarea id="formInput" placeholder="Paste teks Google Form di sini..."></textarea><br><br>
+<button onclick="prosesJawaban()">Proses</button>
+
+<table id="hasilTable" style="display:none;">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Pertanyaan</th>
+      <th>Jawaban Benar</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+// Kunci jawaban
+const kunciJawaban = {
+  "Relay digunakan": "Mengendalikan arus besar dengan arus kecil",
+  "Salah satu fungsi panel instrumen": "Menampilkan informasi kendaraan",
+  "Kabel negatif biasanya": "Hitam",
+  "Sensor pada sistem CAN": "Memberikan data ke ECU",
+  "Fungsi utama switch rem": "Mengaktifkan lampu rem",
+  "Sistem CAN sering digunakan": "Kendaraan modern",
+  "Fungsi utama wiring diagram": "Menunjukkan jalur kelistrikan",
+  "Lampu sein berfungsi": "Isyarat belok",
+  "Fungsi ECU": "Mengolah dan mengirim data sensor",
+  "Komunikasi data antar ECU": "CAN Bus",
+  "Komponen penghubung antara aki": "Kabel",
+  "Arus DC": "Direct Current",
+  "Komponen pelindung rangkaian listrik": "Sekring",
+  "Komponen yang menunjukkan jarak tempuh": "Trip meter",
+  "Fungsi utama aki": "Menyimpan dan menyuplai arus listrik",
+  "Komponen yang menunjukkan kecepatan": "Spidometer",
+  "Jenis arus yang digunakan oleh aki": "DC",
+  "Jenis lampu utama modern": "LED",
+  "Fungsi regulator": "Menstabilkan tegangan output",
+  "Lampu hazard": "Berhenti mendadak atau darurat",
+  "Fungsi utama sistem kelistrikan": "Memberi tenaga listrik pada komponen",
+  "Fungsi utama sekering": "Melindungi dari arus pendek",
+  "Sensor cahaya": "Menyalakan lampu secara otomatis",
+  "Komponen mengubah arus bolak-balik": "Rectifier",
+  "Sistem CAN biasanya terhubung": "Beberapa ECU",
+  "Lampu indikator check engine": "Ada masalah di sistem mesin",
+  "Komponen yang menyimpan data trouble": "ECU",
+  "Jenis kabel yang umum digunakan": "Kabel serabut tembaga",
+  "Keuntungan teknologi jaringan komunikasi CAN": "Mengurangi jumlah kabel",
+  "Fuel gauge": "Volume bahan bakar"
+};
+
+function prosesJawaban() {
+  const input = document.getElementById("formInput").value;
+  const baris = input.split("\n").map(b => b.trim()).filter(b => b.length > 0);
+  
+  const tbody = document.querySelector("#hasilTable tbody");
+  tbody.innerHTML = "";
+  let no = 1;
+
+  for (let pertanyaan in kunciJawaban) {
+    const cocok = baris.find(b => b.toLowerCase().includes(pertanyaan.toLowerCase()));
+    if (cocok) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${no++}</td><td>${cocok}</td><td>${kunciJawaban[pertanyaan]}</td>`;
+      tbody.appendChild(tr);
+    }
+  }
+
+  document.getElementById("hasilTable").style.display = "table";
+}
+</script>
+
+</body>
+</html>
