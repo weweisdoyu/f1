@@ -6,35 +6,45 @@
       "original_name": "file_000000004e607206a504fc81500be6b2_no_ai_metadata.png",
       "evo_data": "Wj8QSIlTX3OhNf7Z4HUey8oB3I905qJTCsUV",
       "mime_type": "image/png",
-      "uploaded_at": "2026-06-10T17:07:38.117Z"
+      "uploaded_at": "2026-06-10T17:07:38.117Z",
+      "file_size": 2763627,
+      "file_size_formatted": "2.64 MB"
     },
     {
       "id": "file_1780033379266",
       "original_name": "app-debug.apk",
       "evo_data": "mRzloVlVABZOd4S27k2YMMACrksTph4wWA0w",
       "mime_type": "application/vnd.android.package-archive",
-      "uploaded_at": "2026-05-29T05:42:59.266Z"
+      "uploaded_at": "2026-05-29T05:42:59.266Z",
+      "file_size": 11732004,
+      "file_size_formatted": "11.19 MB"
     },
     {
       "id": "file_1779446855800",
       "original_name": "eruda-bypass-full.js",
       "evo_data": "t1u35nhlzIyfKteTjWwFxWy2CDLLcwoPgaM4",
       "mime_type": "text/javascript",
-      "uploaded_at": "2026-05-22T10:47:35.800Z"
+      "uploaded_at": "2026-05-22T10:47:35.800Z",
+      "file_size": 503026,
+      "file_size_formatted": "491.24 KB"
     },
     {
       "id": "file_1779445803221",
       "original_name": "Screenshot_2026-05-20-19-51-38-78_f7ca272e3a8c6ddac9ca7165cb81c4b9.jpg",
       "evo_data": "mruESWG11mnxHVxDcD8GfHWQJcwHfNFs70C4",
       "mime_type": "image/jpeg",
-      "uploaded_at": "2026-05-22T10:30:03.221Z"
+      "uploaded_at": "2026-05-22T10:30:03.221Z",
+      "file_size": 512359,
+      "file_size_formatted": "500.35 KB"
     },
     {
       "id": "file_1779445848424",
       "original_name": "IMG-20260520-WA0044.jpg",
       "evo_data": "n6dCF8uQEq9Oif4BRbUJgtGEolcKTxuTyWln",
       "mime_type": "image/jpeg",
-      "uploaded_at": "2026-05-22T10:30:48.424Z"
+      "uploaded_at": "2026-05-22T10:30:48.424Z",
+      "file_size": 121084,
+      "file_size_formatted": "118.25 KB"
     }
   ]
 }
